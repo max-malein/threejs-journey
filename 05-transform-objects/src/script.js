@@ -1,5 +1,6 @@
 import './style.css'
 import * as THREE from 'three'
+import { Color } from 'three'
 
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
@@ -10,10 +11,25 @@ const scene = new THREE.Scene()
 /**
  * Objects
  */
-const geometry = new THREE.BoxGeometry(1, 1, 1)
-const material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
-const mesh = new THREE.Mesh(geometry, material)
-scene.add(mesh)
+const group = new THREE.Group()
+scene.add(group)
+
+var colors = ["green", "yellow", "red"]
+
+for (var i=0; i<3; i ++)
+{
+    let cube = new THREE.Mesh(
+        new THREE.BoxGeometry(1,1,1),
+        new THREE.MeshBasicMaterial({color: colors[i]})
+    )
+    cube.position.x = i*1.5 - 1.5
+
+    group.add(cube)
+}
+
+group.rotation.y = Math.PI / 4
+
+
 
 /**
  * Sizes
@@ -27,8 +43,13 @@ const sizes = {
  * Camera
  */
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height)
-camera.position.z = 3
+camera.position.z = 5
 scene.add(camera)
+
+const axesHelper = new THREE.AxesHelper( 1 );
+scene.add( axesHelper );
+
+
 
 /**
  * Renderer
